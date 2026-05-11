@@ -1,8 +1,8 @@
-# 💳 Payments App
+#  Payments App
 
 A full-stack **MERN** (MongoDB, Express.js, React, Node.js) payments application featuring atomic database transactions to ensure data integrity and consistency across all payment operations.
 
-## 🚀 Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 | :--- | :--- |
@@ -12,7 +12,7 @@ A full-stack **MERN** (MongoDB, Express.js, React, Node.js) payments application
 | **Database Transactions** | MongoDB Atomic Transactions (`startTransaction` / `commitTransaction` / `abortTransaction`) |
 | **Package Manager** | npm / yarn |
 
-## 📁 Project Structure
+##  Project Structure
 
 ```text
 payments-app/
@@ -64,7 +64,7 @@ payments-app/
 
 ---
 
-## ⚙️ Prerequisites
+##  Prerequisites
 
 - **Node.js** v18 or higher
 - **npm** v9+ or **yarn**
@@ -73,7 +73,7 @@ payments-app/
 
 ---
 
-## 🛠️ Installation
+## Installation
 
 ### 1. Clone the repository
 
@@ -98,7 +98,7 @@ npm install
 
 ---
 
-## 🔑 Environment Variables
+##  Environment Variables
 
 Create a `.env` file in the `server/` directory based on `.env.example`:
 
@@ -131,7 +131,7 @@ VITE_API_BASE_URL=http://localhost:5000/api
 
 ---
 
-## ▶️ Running the App
+##  Running the App
 
 ### Development mode
 
@@ -163,7 +163,7 @@ npm start
 
 ---
 
-## 🔒 Atomic Transactions
+##  Atomic Transactions
 
 All payment operations that touch multiple records are wrapped in **atomic database transactions** to guarantee data integrity.
 
@@ -195,7 +195,7 @@ BEGIN TRANSACTION
 
 ---
 
-## 🌐 API Endpoints
+##  API Endpoints
 
 ### Payments
 
@@ -221,7 +221,7 @@ BEGIN TRANSACTION
 
 ---
 
-## 🧪 Running Tests
+##  Running Tests
 
 ```bash
 # Backend unit + integration tests
@@ -235,7 +235,7 @@ npm test
 
 ---
 
-## 🧰 Scripts Reference
+##  Scripts Reference
 
 ### Server (`server/package.json`)
 
@@ -258,7 +258,7 @@ npm test
 
 ---
 
-## 🔐 Security Considerations
+##  Security Considerations
 
 - All endpoints are protected by JWT authentication middleware
 - Input validation is enforced on every request using `express-validator`
@@ -269,7 +269,7 @@ npm test
 
 ---
 
-## 🤝 Contributing
+##  Contributing
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/your-feature-name`
@@ -279,6 +279,6 @@ npm test
 
 ---
 
-## 📄 License
+##  License
 
 This project is licensed under the [MIT License](LICENSE).
