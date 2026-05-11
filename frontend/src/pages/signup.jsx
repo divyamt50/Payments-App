@@ -7,6 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription
+} from "@/components/ui/dialog";
 
 export const SignupComp = () => {
 
@@ -15,15 +23,37 @@ export const SignupComp = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    const [success, setSuccess] = useState(false);
+    const [emailError, setEmailError] = useState("");
 
     const handleSubmit = async()=>{
-        axios.post("localhost:3000/api/v1/users/signup",{
-            username:userName,
-            firstname:firstName,
-            lastname:lastName,
-            password:password
-        })
-    }
+        try{
+            console.log({
+            userName,
+            firstName,
+            lastName,
+            password
+        });
+            if(emailError) return;
+
+            await axios.post("http://localhost:3000/api/v1/users/signup",{
+                username:userName,
+                firstname:firstName,
+                lastname:lastName,
+                password:password
+            }),
+            setSuccess(true);
+            setTimeout(() => {
+                navigate("/signin");
+            }, 2000);
+        }
+        catch(err){
+         console.log(err);   
+        }
+        }
+        
+        
 
     return (
         <div className="p-10 flex justify-center items-center min-h-screen bg-gray-100">
@@ -36,17 +66,46 @@ export const SignupComp = () => {
 
                 <div className="flex flex-col gap-2">
                     <Label>Username</Label>
-                    <Input placeholder="Enter username" />
+                    <Input 
+                        placeholder="Enter username" 
+                        value = {userName} 
+                        onChange = {(e)=>{
+                            const value = e.target.value;
+                            setUserName(value);
+
+                            if(!value.includes('@')){
+                                setEmailError('Please enter a valid email')
+                            }
+                            else{
+                                setEmailError("");
+                            }
+                        }}
+                    />
                 </div>
+                
+                {
+                    emailError &&(
+                        <p className="text-red-500 text-sm">
+                            {emailError}
+                        </p>
+                    )
+                }
 
                 <div className="flex flex-col gap-2">
                     <Label>First Name</Label>
-                    <Input placeholder="Enter first name" />
+                    <Input placeholder="Enter first name" 
+                    onChange = {(e)=>{
+                        setFirstName(e.target.value);
+                    }}/>
                 </div>
 
                 <div className="flex flex-col gap-2">
                     <Label>Last Name</Label>
-                    <Input placeholder="Enter last name" />
+                    <Input placeholder="Enter last name" 
+                    onChange = {(e)=>{
+                        setLastName(e.target.value);
+                    }}
+                    />
                 </div>
 
 
@@ -57,6 +116,9 @@ export const SignupComp = () => {
                     <Input
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter password"
+                        onChange = {(e)=>{
+                        setPassword(e.target.value);
+                    }}
                     />
 
                     <Button
@@ -78,12 +140,42 @@ export const SignupComp = () => {
 
                 <Button 
                     className="w-full"
-                    onClick={() => handleSubmit}
+                    onClick={() => handleSubmit()}
                 >
                     Sign up
                 </Button>
 
             </Card>
+            <Dialog open={success}>
+
+                <DialogContent className="sm:max-w-md">
+
+                    <DialogHeader>
+
+                        <DialogTitle className="text-center text-2xl">
+                            User Created Successfully 🎉
+                        </DialogTitle>
+                        <DialogDescription>
+                            Redirecting to sign in page...
+                        </DialogDescription>
+
+                    </DialogHeader>
+
+                    <div className="flex justify-center py-6">
+
+                        <div className="h-20 w-20 rounded-full bg-green-500 flex items-center justify-center text-white text-4xl">
+                            ✓
+                        </div>
+
+                    </div>
+
+                    <p className="text-center text-gray-500">
+                        Redirecting to sign in page...
+                    </p>
+
+                </DialogContent>
+
+            </Dialog>
 
         </div>
     );

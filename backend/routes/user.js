@@ -151,4 +151,19 @@ router.get('/bulk', async(req, res)=>{
     }    
 });
 
+router.get('/me', authMiddleware,async(req, res)=>{
+    const userId = req.userId;
+    const userInstance = await User.findOne({_id:userId});
+    const accountInstance = await Account.findOne({userId:req.userId});
+
+    const userInfo = {
+                        userName:userInstance.username,
+                        firstName:userInstance.firstname,
+                        lastName:userInstance.lastName,
+                        balance:accountInstance.balance
+                    }
+    
+    return res.status(200).json(userInfo);
+})
+
 module.exports = router;

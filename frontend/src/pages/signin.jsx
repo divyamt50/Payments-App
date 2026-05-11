@@ -7,10 +7,20 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription
+} from "@/components/ui/dialog";
 
 export const SigninComp = () => {
-
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
+    const [success, setSuccess] = useState(false);
+
 
     const [formData, setFormData] = useState({
         username: "",
@@ -18,7 +28,6 @@ export const SigninComp = () => {
     });
 
     const handleChange = (e) => {
-
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
@@ -26,9 +35,18 @@ export const SigninComp = () => {
     };
 
     const handleSubmit = async() => {
-        console.log(formData);
-        axios.post("localhost:3000/api/v1/users/signin",formData);
-    };
+        try{
+            console.log(formData);
+            const response = await axios.post("http://localhost:3000/api/v1/users/signin",formData);
+            localStorage.setItem("token", response.data.token);
+            setSuccess(true);
+            setTimeout(() => {
+                navigate("/dashboard");
+            }, 2000);
+        }
+        catch(err){
+            console.log(err);
+        }};
 
     return (
 
@@ -113,7 +131,7 @@ export const SigninComp = () => {
 
                         Don’t have an account?
 
-                        <span className="underline cursor-pointer ml-1">
+                        <span className="underline cursor-pointer ml-1" onClick={()=>{navigate("/signup")}}>
                             Sign up
                         </span>
 
@@ -122,6 +140,36 @@ export const SigninComp = () => {
                 </div>
 
             </Card>
+            <Dialog open={success}>
+
+                <DialogContent className="sm:max-w-md">
+
+                    <DialogHeader>
+
+                        <DialogTitle className="text-center text-2xl">
+                            Signed In Successfully 🎉
+                        </DialogTitle>
+                        <DialogDescription>
+                            Redirecting to dashboard page...
+                        </DialogDescription>
+
+                    </DialogHeader>
+
+                    <div className="flex justify-center py-6">
+
+                        <div className="h-20 w-20 rounded-full bg-green-500 flex items-center justify-center text-white text-4xl">
+                            ✓
+                        </div>
+
+                    </div>
+
+                    <p className="text-center text-gray-500">
+                        Redirecting to Dashboard page...
+                    </p>
+
+                </DialogContent>
+
+            </Dialog>
 
         </div>
     );
