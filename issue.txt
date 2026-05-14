@@ -1,0 +1,1 @@
+logout functionality = remove the jwt after logout button is clicked and navigate to the sign in page
